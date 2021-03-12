@@ -1,0 +1,49 @@
+@function get_vw($size, $viewport: 1366) {
+  $rate: 100 / $viewport;
+  @return $rate * $size * 1vw;
+}
+
+@function get_vh($size, $viewport: 768) {
+  $rate: 100 / $viewport;
+  @return $rate * $size * 1vh;
+}
+
+// @function padding()
+
+@mixin font-size($font_size: 10) {
+  font-size: $font_size * 1px;
+  font-size: get_vw($font_size);
+}
+
+@mixin width($width){
+  width: $width * 1px;
+  width: get_vw($width);
+}
+@mixin min-width($width){
+  min-width: $width * 1px;
+  min-width: get_vw($width);
+}
+@mixin max-width($width){
+  max-width: $width * 1px;
+  max-width: get_vw($width);
+}
+
+@mixin height($height){
+  height: $height * 1px;
+  height: get_vh($height);
+}
+
+@mixin max-height($height){
+  max-height: $height * 1px;
+  max-height: get_vh($height);
+}
+
+@mixin min-height($height){
+  min-height: $height * 1px;
+  min-height: get_vh($height);
+}
+
+@mixin line-height($line-height){
+  line-height: $line-height * 1px;
+  line-height: get_vh($line-height);
+}
