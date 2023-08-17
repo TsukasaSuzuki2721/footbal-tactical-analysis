@@ -1,43 +1,104 @@
-//対象リーグのid (半自動化)
-// const Laliga_id = "https://api-football-v1.p.rapidapi.com/v2/leagues/seasonsAvailable/2833/2020";
-// const PremierLeague_id = "https://api-football-v1.p.rapidapi.com/v2/leagues/seasonsAvailable/2790/2020";
-// const SerieA_id = "https://api-football-v1.p.rapidapi.com/v2/leagues/seasonsAvailable/2857/2020";
-// const Ligue1_id = "https://api-football-v1.p.rapidapi.com/v2/leagues/seasonsAvailable/2664/2020";
-// const Bundesliga = "https://api-football-v1.p.rapidapi.com/v2/leagues/seasonsAvailable/2755/2020";
-
 //対象リーグのid (手動)
-const Laliga_id = "2833";
-const PremierLeague_id = "2790";
-const SerieA_id = "2857";
-const Ligue1_id = "2664";
-const Bundesliga_id = "2755";
+const
+  Laliga_id = "3513",
+  PremierLeague_id = "3456",
+  SerieA_id = "3576",
+  Ligue1_id = "3506",
+  Bundesliga_id = "3510";
 
-window.addEventListener('load', inPlayGames, false);
-window.addEventListener('load', () => getTeams(Laliga_id), false);
-window.addEventListener('load', () => getTeams(PremierLeague_id), false);
-window.addEventListener('load', () => getTeams(Ligue1_id), false);
-window.addEventListener('load', () => getTeams(SerieA_id), false);
-window.addEventListener('load', () => getTeams(Bundesliga_id), false);
+addEventListener('load', inPlayGames, false);
+addEventListener('load', () => getTeams(Laliga_id), false);
+addEventListener('load', () => getTeams(PremierLeague_id), false);
+addEventListener('load', () => getTeams(Ligue1_id), false);
+addEventListener('load', () => getTeams(SerieA_id), false);
+addEventListener('load', () => getTeams(Bundesliga_id), false);
 
 
-let api = 0;
+//-------------------
+//進行中のゲームを表示
+const inplayObject = new Object();
+async function inPlayGames() {
+  const res_live = await fetch("https://api-football-v1.p.rapidapi.com/v2/fixtures/live?timezone=Europe%2FLondon", {
+    "method": "GET",
+    "headers": {
+      "x-rapidapi-key": "f003acd520msh5976065b082680ap19aabcjsn06211161e262",
+      "x-rapidapi-host": "api-football-v1.p.rapidapi.com"
+    }
+  });
+  const
+    contents_players = await res_live.json(),
+    inplay = contents_players["api"]["fixtures"],
+    lignUp = document.getElementsByClassName('lignUp')[0];
+
+  api++; //謎
+
+  for (let i in inplay) {
+    let league_id = inplay[i].league_id;
+    if (league_id == 3513 || league_id == 3456 || league_id == 3576 || league_id == 3506 || league_id == 3510 || league_id == 2791 || league_id == 3046 || league_id == 2941 || league_id == 2771 || league_id == 2777) {
+      //1つもない場合の文章を非表示
+      document.getElementsByClassName('no-games')[0].style.display = "none";
+
+      //対象のリーグなら表示
+      inplayObject[inplay[i].fixture_id] = new Object();
+      inplayObject[inplay[i].fixture_id].fixture_id = inplay[i].fixture_id;
+      inplayObject[inplay[i].fixture_id].league_id = inplay[i].league_id;
+      inplayObject[inplay[i].fixture_id].league_name = inplay[i]["league"].name;
+      inplayObject[inplay[i].fixture_id].homeTeam_id = inplay[i]["homeTeam"].team_id;
+      inplayObject[inplay[i].fixture_id].homeTeam_name = inplay[i]["homeTeam"].team_name;
+      inplayObject[inplay[i].fixture_id].awayTeam_id = inplay[i]["awayTeam"].team_id;
+      inplayObject[inplay[i].fixture_id].awayTeam_name = inplay[i]["awayTeam"].team_name;
+      inplayObject[inplay[i].fixture_id].score_home = inplay[i].goalsHomeTeam;
+      inplayObject[inplay[i].fixture_id].score_away = inplay[i].goalsAwayTeam;
+
+      const
+        sectionElement = document.createElement('section'),
+        h5Element = document.createElement('h5'),
+        divElement = document.createElement('div'),
+        pElement_home = document.createElement('p'),
+        pElement_score = document.createElement('p'),
+        pElement_away = document.createElement('p'),
+        buttonElement_start = document.createElement('button'),
+        buttonElement_close = document.createElement('button');
+
+      sectionElement.classList.add(inplay[i].fixture_id);
+      sectionElement.classList.add("h2h_live");
+      h5Element.classList.add("inplay_title");
+      pElement_home.classList.add('inplay_team');
+      pElement_away.classList.add('inplay_team');
+      pElement_score.classList.add('inplay_score');
+      buttonElement_start.classList.add('startBtn');
+      buttonElement_close.classList.add("closeStart");
+      buttonElement_close.classList.add(`close_${inplay[i].fixture_id}`);
+      sectionElement.id = inplay[i].fixture_id;
+
+      h5Element.innerHTML = inplay[i]["league"].name;
+      pElement_home.innerHTML = inplay[i]["homeTeam"].team_name;
+      pElement_away.innerHTML = inplay[i]["awayTeam"].team_name;
+      pElement_score.innerHTML = inplay[i].goalsHomeTeam + " - " + inplay[i].goalsAwayTeam;
+      buttonElement_start.innerHTML = "分析開始";
+      buttonElement_close.innerHTML = "－";
+
+      sectionElement.appendChild(h5Element);
+      sectionElement.appendChild(divElement);
+      sectionElement.appendChild(buttonElement_start);
+      sectionElement.appendChild(buttonElement_close);
+      divElement.appendChild(pElement_home);
+      divElement.appendChild(pElement_score);
+      divElement.appendChild(pElement_away);
+      lignUp.appendChild(sectionElement);
+
+      sectionElement.addEventListener('click', startGame);
+    }
+  }
+}
+
+
+let api = 0; //謎
 //--------------------------------
 //リーグに属するチームを取得して表示
 async function getTeams(league_id) {
-  // //指定されたリーグの現在のリーグIDを取得 (半自動化)
-  // const res = await fetch(url, {
-  //   "method": "GET",
-  //   "headers": {
-  //     "x-rapidapi-key": "f003acd520msh5976065b082680ap19aabcjsn06211161e262",
-  //     "x-rapidapi-host": "api-football-v1.p.rapidapi.com"
-  //   }
-  // })
-  // const contents_id = await res.json();
-  // const league_id = contents_id["api"]["leagues"][0]["league_id"];
-
   //取得したリーグIDから所属チームを取得
-  const targetLeague = `https://api-football-v1.p.rapidapi.com/v2/teams/league/${league_id}`;
-  const res_teams = await fetch(targetLeague, {
+  const res_teams = await fetch(`https://api-football-v1.p.rapidapi.com/v2/teams/league/${league_id}`, {
     "method": "GET",
     "headers": {
       "x-rapidapi-key": "f003acd520msh5976065b082680ap19aabcjsn06211161e262",
@@ -46,38 +107,33 @@ async function getTeams(league_id) {
   });
   const contents_teams = await res_teams.json();
   const teamInfo = contents_teams["api"]["teams"];
-  const NofTeam = contents_teams["api"]["results"];
-  const teams_name = new Array();
-  const teams_id = new Array();
-  api++;
+  const teams_name = new Array(); //謎
+  const teams_id = new Array(); //謎
+  api++; //謎
 
+  let targetList;
   //出力先を決定
-  if (league_id == 2833) {
-    const inputList = document.getElementById('LaLiga');
-    window.inputList = inputList;
-  } else if (league_id == 2790) {
-    const inputList = document.getElementById('PremirLeague');
-    window.inputList = inputList;
-  } else if (league_id == 2857) {
-    const inputList = document.getElementById('SerieA');
-    window.inputList = inputList;
-  } else if (league_id == 2664) {
-    const inputList = document.getElementById('Leage1');
-    window.inputList = inputList;
-  } else if (league_id == 2755) {
-    const inputList = document.getElementById('Bundesliga');
-    window.inputList = inputList;
+  if (league_id == Laliga_id) {
+    targetList = document.getElementById('LaLiga');
+  } else if (league_id == PremierLeague_id) {
+    targetList = document.getElementById('PremirLeague');
+  } else if (league_id == SerieA_id) {
+    targetList = document.getElementById('SerieA');
+  } else if (league_id == Ligue1_id) {
+    targetList = document.getElementById('Leage1');
+  } else if (league_id == Bundesliga_id) {
+    targetList = document.getElementById('Bundesliga');
   }
 
-  for (let i = 0; i < NofTeam; i++) {
-    teams_name.push(teamInfo[i]["name"]);
-    teams_id.push(teamInfo[i]["team_id"]);
+  for (let i in teamInfo) {
+    teams_name.push(teamInfo[i]["name"]); //謎
+    teams_id.push(teamInfo[i]["team_id"]); //謎
 
     const teamOption = document.createElement('option');
     teamOption.id = teamInfo[i]["team_id"];
     teamOption.value = teamInfo[i]["name"];
     teamOption.innerHTML = teamInfo[i]["name"];
-    inputList.appendChild(teamOption);
+    targetList.appendChild(teamOption);
   }
 }
 
@@ -85,7 +141,6 @@ async function getTeams(league_id) {
 //-----------------------------------------------------------
 //過去５試合のメンバーからチームメンバーと正確な背番号を割り出す
 const playersObject = new Object();
-
 async function pastXI(team_id, target_name, home_away) {
   let = pastNo = 1;
   const res_pastXI = await fetch(`https://api-football-v1.p.rapidapi.com/v2/fixtures/team/${team_id}/last/5`, {
@@ -161,7 +216,6 @@ async function pastXI(team_id, target_name, home_away) {
             playersObject[target_name][addPlayer].id = target[j].player_id;
             playersObject[target_name][addPlayer].pos = target[j].pos;
             if (stm_sub == "stm") {
-              console.log('ok')
               playersObject[target_name][addPlayer].type = "stm";
               if (home_away == "home") {
                 numberingTarget_home[count_home].id = `b_${target[j].number}`;
@@ -386,103 +440,9 @@ function outputPlayers(teamName, homeaway) {
   }
 }
 
-//-------------------
-//進行中のゲームを表示
-const inplayObject = new Object();
-async function inPlayGames() {
-  const res_live = await fetch("https://api-football-v1.p.rapidapi.com/v2/fixtures/live?timezone=Europe%2FLondon", {
-    "method": "GET",
-    "headers": {
-      "x-rapidapi-key": "f003acd520msh5976065b082680ap19aabcjsn06211161e262",
-      "x-rapidapi-host": "api-football-v1.p.rapidapi.com"
-    }
-  });
-  const contents_players = await res_live.json();
-  const NofGame = contents_players["api"]["results"];
-  const inplay = contents_players["api"]["fixtures"];
-  const lignUp = document.getElementsByClassName('lignUp')[0];
-  api++;
-
-  for (let i = 0; i < NofGame; i++) {
-    let getLeagueID = inplay[i].league_id;
-
-    if (getLeagueID == 2833 || getLeagueID == 2790 || getLeagueID == 2857 || getLeagueID == 2664 || getLeagueID == 2755 || getLeagueID == 2791 || getLeagueID == 3046 || getLeagueID == 2941 || getLeagueID == 2771 || getLeagueID == 2777) {
-      //1つもない場合の文章を非表示
-      document.getElementsByClassName('no-games')[0].style.display = "none";
-      //対象のリーグなら表示
-      inplayObject[inplay[i].fixture_id] = new Object();
-      inplayObject[inplay[i].fixture_id].fixture_id = inplay[i].fixture_id;
-      inplayObject[inplay[i].fixture_id].league_id = inplay[i].league_id;
-      inplayObject[inplay[i].fixture_id].league_name = inplay[i]["league"].name;
-      inplayObject[inplay[i].fixture_id].homeTeam_id = inplay[i]["homeTeam"].team_id;
-      inplayObject[inplay[i].fixture_id].homeTeam_name = inplay[i]["homeTeam"].team_name;
-      inplayObject[inplay[i].fixture_id].awayTeam_id = inplay[i]["awayTeam"].team_id;
-      inplayObject[inplay[i].fixture_id].awayTeam_name = inplay[i]["awayTeam"].team_name;
-      inplayObject[inplay[i].fixture_id].score_home = inplay[i].goalsHomeTeam;
-      inplayObject[inplay[i].fixture_id].score_away = inplay[i].goalsAwayTeam;
 
 
-      const sectionElement = document.createElement('section');
-      const h5Element = document.createElement('h5');
-      const divElement = document.createElement('div');
-      const pElement_home = document.createElement('p');
-      const pElement_score = document.createElement('p');
-      const pElement_away = document.createElement('p');
-      const buttonElement_start = document.createElement('button');
-      const buttonElement_close = document.createElement('button');
-
-      sectionElement.classList.add(inplay[i].fixture_id);
-      sectionElement.classList.add("h2h_live");
-      h5Element.classList.add("inplay_title");
-      pElement_home.classList.add('inplay_team');
-      pElement_away.classList.add('inplay_team');
-      pElement_score.classList.add('inplay_score');
-      buttonElement_start.classList.add('startBtn');
-      buttonElement_close.classList.add("closeStart");
-      buttonElement_close.classList.add(`close_${inplay[i].fixture_id}`);
-      sectionElement.id = inplay[i].fixture_id;
-
-      h5Element.innerHTML = inplay[i]["league"].name;
-      pElement_home.innerHTML = inplay[i]["homeTeam"].team_name;
-      pElement_away.innerHTML = inplay[i]["awayTeam"].team_name;
-      pElement_score.innerHTML = inplay[i].goalsHomeTeam + " - " + inplay[i].goalsAwayTeam;
-      buttonElement_start.innerHTML = "分析開始";
-      buttonElement_close.innerHTML = "－";
-
-      sectionElement.appendChild(h5Element);
-      sectionElement.appendChild(divElement);
-      sectionElement.appendChild(buttonElement_start);
-      sectionElement.appendChild(buttonElement_close);
-      divElement.appendChild(pElement_home);
-      divElement.appendChild(pElement_score);
-      divElement.appendChild(pElement_away);
-      lignUp.appendChild(sectionElement);
-
-      sectionElement.addEventListener('click', startGame);
-
-      // const onDisplay = function () {
-      //   const startBtn = document.getElementById(this.classList[0]);
-      //   const closeBtn = document.getElementsByClassName(`close_${this.classList[0]}`);
-      //   const thisColumn = this;
-      //   $(this).animate({
-      //     'height': '70px'
-      //   });
-      //   $(startBtn).fadeIn();
-      //   $(closeBtn).fadeIn();
-
-      //   const btnClose = function () {
-      //     $(startBtn).fadeOut();
-      //     $(closeBtn).fadeOut();
-      //     $(thisColumn).animate({
-      //       'height': '13px'
-      //     });
-      //   }
-    }
-  }
-}
-
-
-const season = 2020;
+const season = 2021;
 //------------------------------
 //選手に関する詳細な情報を取得する
 async function getDetail(team_name, team_id) {

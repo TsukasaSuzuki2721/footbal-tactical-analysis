@@ -28,7 +28,6 @@ addSituation.addEventListener('click', function () {
   //↑appendChildで追加できるのはノードに限るためcreatTextNodeで追加↑
   labelElementChild.appendChild(labelName);
   labelElementParent.appendChild(labelElementChild);
-  // console.log('lavel生成後：' + situationNo);
 
   //input要素生成
   const inputElement = document.createElement("input");
@@ -55,7 +54,6 @@ addSituation.addEventListener('click', function () {
   modal[0].style.display = "none";
   //次の要素追加に備えて＋1
   situationNo++;
-  // console.log('situationNo＋1後：' + situationNo);
 });
 
 let situationNo = NofAspect + 1;

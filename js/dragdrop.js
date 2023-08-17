@@ -51,7 +51,6 @@ async function preset(load, target) {
     "method": "GET"
   });
   const contents_preset = await res_preset.json();
-  console.log(contents_preset);
 
   if (load) {
     for (let i = 1; i <= team_black.length; i++) {
@@ -164,9 +163,17 @@ function mdown(e) {
   } else {
     let event = e.changedTouches[0];
   }
+  // console.log(event)
   //要素内の相対座標を取得
+  // console.log(event)
+  // console.log(event.pageX)
+  // console.log(event.currentTarget)
+  // console.log(this)
+  // console.log(this.offsetLeft) //親要素からの距離（この場合フィールドの左端）
   x = event.pageX - this.offsetLeft;
   y = event.pageY - this.offsetTop;
+  // console.log(x)
+  // console.log(y)
 
   //mmove関数をコールバック mdownの中で呼び出すことでmdownをしている時だけマウスに要素が追従してくるということになる。
   document.body.addEventListener("mousemove", mmove, false);
@@ -199,20 +206,14 @@ function mmove(e) {
   const client_w = document.getElementsByClassName('placement')[0].clientWidth;
   const client_h = document.getElementsByClassName('placement')[0].clientHeight;
 
+  console.log(event.pageX)
   let coordinateX = event.pageX - x;
   let coordinateY = event.pageY - y;
   //↑フィールド左角が基準
 
-
-  let coordinateXP = coordinateX / client_w * 100;
-  let coordinateYP = coordinateY / client_h * 100;
-
   //マウスが動いた場所に要素を動かす
   drag.style.left = coordinateX + "px";
   drag.style.top = coordinateY + "px";
-
-  const ballXP = 100 - 27 / coordinateX * 100;
-  const ballYP = 100 - 27 / coordinateY * 100;
 
   // 親要素を超えたときに要素の追従を停止
   if (coordinateX < 0) {
@@ -375,7 +376,6 @@ function save() {
     const arrow = document.querySelectorAll(`.${nowSituation}`);
     if (arrow.length > 0) {
       for (let m = 0; m <= arrow.length; m++) {
-        console.log(arrow[m])
         arrow[m].style.opacity = '1';
         arrow[m].style.transition = '1.5s 1s';
         arrow[m].classList.remove('no-touch');

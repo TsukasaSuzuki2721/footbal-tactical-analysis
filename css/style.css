@@ -50,10 +50,6 @@ button:active {
 
 body {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
 }
 
 body .loadWrap {
@@ -188,7 +184,7 @@ body .loadWrap .mordal_load .explanation .close {
   font-size: 17px;
   font-weight: bold;
   text-align: center;
-  line-height: 32.5px;
+  line-height: 30px;
   border-radius: 50%;
   color: #d62c2c;
   display: block;
@@ -844,7 +840,7 @@ body .analysis-borde main .tactical-menu > div#aspectList > input {
   display: none;
 }
 
-body .analysis-borde main .tactical-menu > div#aspectList > input:checked + .dent {
+body .analysis-borde main .tactical-menu > div#aspectList > input:checked + label {
   -webkit-box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.1) inset, -3px -3px 4px white inset;
           box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.1) inset, -3px -3px 4px white inset;
 }
@@ -1038,6 +1034,16 @@ body .tab-area {
 .right-wrap {
   width: 100%;
   height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
 }
 
 .right-wrap .data-menu {
@@ -1323,13 +1329,13 @@ body .tab-area {
   text-align: center;
 }
 
-.right-wrap #show-member {
+.right-wrap .display #show-member {
   display: block;
   padding: 24px;
   position: relative;
 }
 
-.right-wrap #show-member .header_member {
+.right-wrap .display #show-member .header_member {
   width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1340,22 +1346,22 @@ body .tab-area {
   margin-bottom: 24px;
 }
 
-.right-wrap #show-member .header_member .memberBtn {
+.right-wrap .display #show-member .header_member .memberBtn {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
 
-.right-wrap #show-member .header_member .memberBtn input {
+.right-wrap .display #show-member .header_member .memberBtn input {
   display: none;
 }
 
-.right-wrap #show-member .header_member .memberBtn input:checked + label {
+.right-wrap .display #show-member .header_member .memberBtn input:checked + label {
   -webkit-box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.1) inset, -3px -3px 4px white inset;
           box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.1) inset, -3px -3px 4px white inset;
 }
 
-.right-wrap #show-member .header_member .memberBtn label {
+.right-wrap .display #show-member .header_member .memberBtn label {
   font-size: 13px;
   padding: 3px 12px;
   margin-right: 12px;
@@ -1371,7 +1377,7 @@ body .tab-area {
   cursor: pointer;
 }
 
-.right-wrap #show-member .header_member .memberBtn label .black-team {
+.right-wrap .display #show-member .header_member .memberBtn label .black-team {
   width: 13px;
   height: 13px;
   border-radius: 50%;
@@ -1379,7 +1385,7 @@ body .tab-area {
   margin-right: 6px;
 }
 
-.right-wrap #show-member .header_member .memberBtn label .gray-team {
+.right-wrap .display #show-member .header_member .memberBtn label .gray-team {
   width: 13px;
   height: 13px;
   border-radius: 50%;
@@ -1387,7 +1393,7 @@ body .tab-area {
   margin-right: 6px;
 }
 
-.right-wrap #show-member .header_member .btn_change {
+.right-wrap .display #show-member .header_member .btn_change {
   font-size: 13px;
   padding: 3px 15px;
   border-radius: 15px;
@@ -1399,18 +1405,18 @@ body .tab-area {
   cursor: pointer;
 }
 
-.right-wrap #show-member .header_member .btn_change:active {
+.right-wrap .display #show-member .header_member .btn_change:active {
   -webkit-box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.1) inset, -3px -3px 4px white inset;
           box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.1) inset, -3px -3px 4px white inset;
 }
 
-.right-wrap #show-member .memberColumn {
+.right-wrap .display #show-member .memberColumn {
   height: 390px;
   overflow-x: hidden;
   overflow-y: auto;
 }
 
-.right-wrap #show-member .memberColumn h3 {
+.right-wrap .display #show-member .memberColumn h3 {
   font-size: 15px;
   letter-spacing: 1px;
   color: #8b8b8b;
@@ -1418,14 +1424,14 @@ body .tab-area {
   margin-bottom: 7px;
 }
 
-.right-wrap #show-member .memberColumn .byPosition {
+.right-wrap .display #show-member .memberColumn .byPosition {
   width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
 
-.right-wrap #show-member .memberColumn .byPosition .playerList {
+.right-wrap .display #show-member .memberColumn .byPosition .playerList {
   width: 90%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1438,7 +1444,7 @@ body .tab-area {
   margin: 6px 0;
 }
 
-.right-wrap #show-member .memberColumn .byPosition .playerList > section {
+.right-wrap .display #show-member .memberColumn .byPosition .playerList > section {
   width: 46%;
   font-size: 14px;
   padding: 0 0 12px;
@@ -1448,17 +1454,17 @@ body .tab-area {
   cursor: pointer;
 }
 
-.right-wrap #show-member .memberColumn .byPosition .playerList > section:hover {
+.right-wrap .display #show-member .memberColumn .byPosition .playerList > section:hover {
   color: red;
 }
 
-.right-wrap #show-member .memberColumn .byPosition .playerList > section .num {
+.right-wrap .display #show-member .memberColumn .byPosition .playerList > section .num {
   width: 17px;
   text-align: right;
   margin-right: 12px;
 }
 
-.right-wrap #show-member .memberColumn .position-fw {
+.right-wrap .display #show-member .memberColumn .position-fw {
   width: 23px;
   font-size: 14px;
   font-weight: bold;
@@ -1467,7 +1473,7 @@ body .tab-area {
   margin: 6px 32px 0 0;
 }
 
-.right-wrap #show-member .memberColumn .position-mf {
+.right-wrap .display #show-member .memberColumn .position-mf {
   width: 23px;
   font-size: 14px;
   font-weight: bold;
@@ -1477,7 +1483,7 @@ body .tab-area {
   margin: 6px 32px 0 0;
 }
 
-.right-wrap #show-member .memberColumn .position-df {
+.right-wrap .display #show-member .memberColumn .position-df {
   width: 23px;
   font-size: 14px;
   font-weight: bold;
@@ -1487,7 +1493,7 @@ body .tab-area {
   margin: 6px 32px 0 0;
 }
 
-.right-wrap #show-member .memberColumn .position-gk {
+.right-wrap .display #show-member .memberColumn .position-gk {
   width: 23px;
   font-size: 14px;
   font-weight: bold;
@@ -1496,7 +1502,7 @@ body .tab-area {
   margin: 6px 32px 0 0;
 }
 
-.right-wrap #show-member .memberColumn .detailBox {
+.right-wrap .display #show-member .memberColumn .detailBox {
   width: 90%;
   font-size: 14px;
   border-radius: 10px;
@@ -1509,7 +1515,7 @@ body .tab-area {
   transition: all 1s;
 }
 
-.right-wrap #show-member .memberColumn .detailBox .detailWrap .profile {
+.right-wrap .display #show-member .memberColumn .detailBox .detailWrap .profile {
   font-size: 14px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1520,11 +1526,11 @@ body .tab-area {
   margin-bottom: 12px;
 }
 
-.right-wrap #show-member .memberColumn .detailBox .detailWrap .profile .number_profile {
+.right-wrap .display #show-member .memberColumn .detailBox .detailWrap .profile .number_profile {
   margin-right: 12px;
 }
 
-.right-wrap #show-member .memberColumn .detailBox .detailWrap .profile .name_profile {
+.right-wrap .display #show-member .memberColumn .detailBox .detailWrap .profile .name_profile {
   width: 82px;
   margin-right: 24px;
   text-overflow: ellipsis;
@@ -1532,12 +1538,12 @@ body .tab-area {
   white-space: nowrap;
 }
 
-.right-wrap #show-member .memberColumn .detailBox .detailWrap .profile .sub-info {
+.right-wrap .display #show-member .memberColumn .detailBox .detailWrap .profile .sub-info {
   font-size: 13px;
   margin-right: 24px;
 }
 
-.right-wrap #show-member .memberColumn .detailBox .detailWrap .profile .close_detail {
+.right-wrap .display #show-member .memberColumn .detailBox .detailWrap .profile .close_detail {
   width: 22px;
   height: 22px;
   color: #b32020;
@@ -1551,17 +1557,17 @@ body .tab-area {
   cursor: pointer;
 }
 
-.right-wrap #show-member .memberColumn .detailBox .detailWrap .profile .close_detail:active {
+.right-wrap .display #show-member .memberColumn .detailBox .detailWrap .profile .close_detail:active {
   -webkit-box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.1) inset, -3px -3px 4px white inset;
           box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.1) inset, -3px -3px 4px white inset;
 }
 
-.right-wrap #show-member .memberColumn .detailBox .detailWrap ::-webkit-scrollbar {
+.right-wrap .display #show-member .memberColumn .detailBox .detailWrap ::-webkit-scrollbar {
   width: 8px;
   height: 4px;
 }
 
-.right-wrap #show-member .memberColumn .detailBox .detailWrap .detailList {
+.right-wrap .display #show-member .memberColumn .detailBox .detailWrap .detailList {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1570,27 +1576,27 @@ body .tab-area {
   overflow-y: hidden;
 }
 
-.right-wrap #show-member .memberColumn .detailBox .detailWrap .detailList .detailTitle {
+.right-wrap .display #show-member .memberColumn .detailBox .detailWrap .detailList .detailTitle {
   font-size: 13px;
   font-weight: bold;
   margin-bottom: 12px;
 }
 
-.right-wrap #show-member .memberColumn .detailBox .detailWrap .detailList .detail {
+.right-wrap .display #show-member .memberColumn .detailBox .detailWrap .detailList .detail {
   font-size: 13px;
   margin-right: 40px;
 }
 
-.right-wrap #show-member .memberColumn .detailBox .detailWrap .detailList .detail > table {
+.right-wrap .display #show-member .memberColumn .detailBox .detailWrap .detailList .detail > table {
   padding: 10px;
   border-collapse: collapse;
 }
 
-.right-wrap #show-member .memberColumn .detailBox .detailWrap .detailList .detail > table tr .detailName {
+.right-wrap .display #show-member .memberColumn .detailBox .detailWrap .detailList .detail > table tr .detailName {
   padding: 0 12px 10px 0;
 }
 
-.right-wrap #show-member .playerChange {
+.right-wrap .display .playerChange {
   width: 0;
   height: 375px;
   border-radius: 10px 0 10px 10px;
@@ -1602,26 +1608,26 @@ body .tab-area {
   right: 0px;
 }
 
-.right-wrap #show-member .playerChange .playerChange_wrap {
+.right-wrap .display .playerChange .playerChange_wrap {
   display: none;
 }
 
-.right-wrap #show-member .playerChange .playerChange_wrap > h3 {
+.right-wrap .display .playerChange .playerChange_wrap > h3 {
   font-size: 15px;
   text-align: center;
   margin-bottom: 17px;
 }
 
-.right-wrap #show-member .playerChange .playerChange_wrap .changeSection {
+.right-wrap .display .playerChange .playerChange_wrap .changeSection {
   font-size: 13px;
   margin-bottom: 28px;
 }
 
-.right-wrap #show-member .playerChange .playerChange_wrap .changeSection > p {
+.right-wrap .display .playerChange .playerChange_wrap .changeSection > p {
   font-weight: bold;
 }
 
-.right-wrap #show-member .playerChange .playerChange_wrap .changeSection .changeSelect {
+.right-wrap .display .playerChange .playerChange_wrap .changeSection .changeSelect {
   width: 350px;
   margin: 12px 0 0px;
   display: -webkit-box;
@@ -1635,7 +1641,7 @@ body .tab-area {
           align-items: center;
 }
 
-.right-wrap #show-member .playerChange .playerChange_wrap .changeSection .changeSelect .selectBox {
+.right-wrap .display .playerChange .playerChange_wrap .changeSection .changeSelect .selectBox {
   width: 150px;
   font-size: 13px;
   padding: 5px;
@@ -1648,19 +1654,19 @@ body .tab-area {
   cursor: pointer;
 }
 
-.right-wrap #show-member .playerChange .playerChange_wrap .changeSection .changeSelect .selectBox:active {
+.right-wrap .display .playerChange .playerChange_wrap .changeSection .changeSelect .selectBox:active {
   -webkit-box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.1) inset, -3px -3px 4px white inset;
           box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.1) inset, -3px -3px 4px white inset;
 }
 
-.right-wrap #show-member .playerChange .btnBox {
+.right-wrap .display .playerChange .btnBox {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   margin: 0 auto;
 }
 
-.right-wrap #show-member .playerChange .btnBox .btn_change {
+.right-wrap .display .playerChange .btnBox .btn_change {
   width: 100px;
   height: 25px;
   margin: 0 auto;
@@ -1674,12 +1680,12 @@ body .tab-area {
   cursor: pointer;
 }
 
-.right-wrap #show-member .playerChange .btnBox .btn_change:active {
+.right-wrap .display .playerChange .btnBox .btn_change:active {
   -webkit-box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.1) inset, -3px -3px 4px white inset;
           box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.1) inset, -3px -3px 4px white inset;
 }
 
-.right-wrap #show-member .member-away {
+.right-wrap .display .member-away {
   display: none;
 }
 

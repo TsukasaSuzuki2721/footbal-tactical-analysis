@@ -1,72 +1,48 @@
-const realTime = document.getElementsByClassName('liveBtn')[0];
-const simuration = document.getElementsByClassName('simurationBtn')[0];
-const liveColumn = document.getElementsByClassName('liveColumn')[0];
-const simurationColumn = document.getElementsByClassName('simurationColumn')[0];
-const live_close = document.getElementsByClassName('live_close')[0];
-const simuration_close = document.getElementsByClassName('simuration_close')[0];
+const
+  liveBtn = document.querySelector('.liveBtn'),
+  liveDisplay = document.querySelector('.liveColumn'),
+  liveClose = document.querySelector('.live_close'),
+  simurationBtn = document.querySelector('.simurationBtn'),
+  simurationDisplay = document.querySelector('.simurationColumn'),
+  simurationClose = document.querySelector('.simuration_close');
 
-$(function () {
-  $(realTime).on('click', function () {
-    $(simuration).addClass("no-touch").animate({
+menu_showHide(liveBtn, simurationBtn, liveDisplay);
+menu_showHide(simurationBtn, liveBtn, simurationDisplay);
+menu_showHide(liveClose, liveDisplay, simurationBtn);
+menu_showHide(simurationClose, simurationDisplay, liveBtn);
+
+function menu_showHide(click_el, hide_el, show_el) {
+  $(click_el).on('click', function () {
+    $(hide_el).addClass("no-touch").animate({
         'opacity': '0'
       }, 500,
       function () {
-        $(liveColumn).removeClass("no-touch").animate({
+        $(show_el).removeClass("no-touch").animate({
           'opacity': '1'
         }, 1000)
       });
   });
-
-  $(simuration).on('click', function () {
-    $(realTime).addClass("no-touch").animate({
-        'opacity': '0'
-      }, 500,
-      function () {
-        $(simurationColumn).removeClass("no-touch").animate({
-          'opacity': '1'
-        }, 1000)
-      });
-  });
-
-  $(live_close).on('click', function () {
-    $(liveColumn).addClass("no-touch").animate({
-        'opacity': '0'
-      }, 500,
-      function () {
-        $(simuration).removeClass("no-touch").animate({
-          'opacity': '1'
-        }, 1000)
-      });
-  });
-
-  $(simuration_close).on('click', function () {
-    $(simurationColumn).addClass("no-touch").animate({
-        'opacity': '0'
-      }, 500,
-      function () {
-        $(realTime).removeClass("no-touch").animate({
-          'opacity': '1'
-        }, 1000)
-      });
-  });
-});
+};
 
 //ロード時にモーダルウィンドウ表示
-const loadWrap = document.getElementsByClassName('loadWrap')[0];
-window.addEventListener('load', () => loadWrap.style.display = "block");
+const loadWrap = document.querySelector('.loadWrap');
+addEventListener('load', () => loadWrap.style.display = "block");
 
 //***点滅のアニメーション***
-const homeTeam = document.getElementsByClassName('homeTeam')[0];
-const awayTeam = document.getElementsByClassName('awayTeam')[0];
+const
+  homeTeam = document.getElementsByClassName('homeTeam')[0],
+  awayTeam = document.getElementsByClassName('awayTeam')[0];
 
-simuration.addEventListener('click', focus);
-homeTeam.addEventListener('click', focus);
-awayTeam.addEventListener('click', focus);
+simurationBtn.addEventListener('click', () => focus(animation));
+homeTeam.addEventListener('click', () => focus(animation));
+awayTeam.addEventListener('click', () => focus(animation));
 
 //アニメーションの関数
-window.loop = null;
+let
+  loop = null,
+  animationTarget;
 
-function focus() {
+function focus(callback) {
   if (loop !== null) {
     clearTimeout(loop);
   }
@@ -79,18 +55,16 @@ function focus() {
   }
   animation();
 }
-
-function animation() {
-  const animationTarget = document.getElementById('focus');
-  window.animationTarget = animationTarget;
+const animation = function () {
+  animationTarget = document.getElementById('focus');
   $(animationTarget).animate({
     'color': '#f4f5f7'
   }, 350, () => $(animationTarget).animate({
     'color': '#333'
   }, 350));
-  const loop = setTimeout(animation, 1200);
-  window.loop = loop;
-}
+  loop = setTimeout(animation, 1200);
+};
+
 
 
 const startBtn = document.getElementsByClassName('start')[0];
@@ -130,12 +104,16 @@ startBtn.addEventListener('click', startGame);
 async function startGame() {
   closeAnimation();
 
-  const memberBtnHome = document.getElementsByClassName('memberBtn_t1')[0];
-  const memberBtnAway = document.getElementsByClassName('memberBtn_t2')[0];
+  const memberBtnHome = document.querySelector('.memberBtn_t1');
+  const memberBtnAway = document.querySelector('.memberBtn_t2');
+  const homeName_memo = document.querySelector('#home-name');
+  const awayName_memo = document.querySelector('#away-name');
 
   if (this == startBtn) {
     memberBtnHome.innerHTML = homeTeamName;
+    homeName_memo.innerHTML = homeTeamName;
     memberBtnAway.innerHTML = awayTeamName;
+    awayName_memo.innerHTML = awayTeamName;
     //↓openDetail()用↓
     window.teamName = homeTeamName;
 
@@ -145,13 +123,16 @@ async function startGame() {
     await outputPlayers(homeTeamName, "home");
     await outputPlayers(awayTeamName, "away");
   } else {
-    const homeTeam_name = inplayObject[this.id].homeTeam_name;
-    const homeTeam_id = inplayObject[this.id].homeTeam_id;
-    const awayTeam_name = inplayObject[this.id].awayTeam_name;
-    const awayTeam_id = inplayObject[this.id].awayTeam_id;
+    const
+      homeTeam_name = inplayObject[this.id].homeTeam_name,
+      homeTeam_id = inplayObject[this.id].homeTeam_id,
+      awayTeam_name = inplayObject[this.id].awayTeam_name,
+      awayTeam_id = inplayObject[this.id].awayTeam_id;
 
     memberBtnHome.innerHTML = homeTeam_name;
+    homeName_memo.innerHTML = homeTeam_name;
     memberBtnAway.innerHTML = awayTeam_name;
+    awayName_memo.innerHTML = awayTeam_name;
     //↓openDetail()用↓
     window.teamName = homeTeam_name;
 
@@ -170,14 +151,15 @@ async function startGame() {
   }
 }
 
-const remainBox = document.querySelector('.remainBox');
-const title_modal = document.querySelector('.title_modal');
-const load_detail = document.querySelector('.load_detail');
-const load_detail2 = document.querySelector('.load_detail2');
-const mode = document.querySelectorAll('.mode');
-const modeWrap = document.querySelectorAll('.modeWrap');
-const explanationColumn = document.querySelectorAll('.explanationColumn');
-const explanationWrap = document.querySelectorAll('.explanationWrap');
+const
+  remainBox = document.querySelector('.remainBox'),
+  title_modal = document.querySelector('.title_modal'),
+  load_detail = document.querySelector('.load_detail'),
+  load_detail2 = document.querySelector('.load_detail2'),
+  mode = document.querySelectorAll('.mode'),
+  modeWrap = document.querySelectorAll('.modeWrap'),
+  explanationColumn = document.querySelectorAll('.explanationColumn'),
+  explanationWrap = document.querySelectorAll('.explanationWrap');
 
 function closeAnimation() {
   for (let i = 0; i < mode.length; i++) {
@@ -213,21 +195,21 @@ function closeAnimation() {
 
 //----
 //info
-const modalWrap_info = document.getElementsByClassName('modalWrap_info')[0];
-const introduction = document.getElementsByClassName('introduction');
-const intro_title = document.getElementsByClassName('intro_title')[0];
-const intro_img = document.getElementsByClassName('intro_img')[0];
-const intro_txt = document.getElementsByClassName('intro_txt')[0];
-const about_intro = document.getElementById('about_intro');
-const placement_intro = document.getElementById('placement_intro');
-const member_intro = document.getElementById('member_intro');
-const flow_intro = document.getElementById('flow_intro');
-const tactics_intro = document.getElementById('tactics_intro');
-const title_info = document.getElementsByClassName('title_info');
+const
+  modalWrap_info = document.getElementsByClassName('modalWrap_info')[0],
+  introduction = document.getElementsByClassName('introduction'),
+  intro_title = document.getElementsByClassName('intro_title')[0],
+  intro_img = document.getElementsByClassName('intro_img')[0],
+  intro_txt = document.getElementsByClassName('intro_txt')[0],
+  about_intro = document.getElementById('about_intro'),
+  placement_intro = document.getElementById('placement_intro'),
+  member_intro = document.getElementById('member_intro'),
+  flow_intro = document.getElementById('flow_intro'),
+  tactics_intro = document.getElementById('tactics_intro'),
+  title_info = document.getElementsByClassName('title_info');
 let nowIntro = about_intro;
 
 const existing = localStorage.getItem("existingUser");
-console.log(existing)
 if (!existing) {
   $(modalWrap_info).fadeIn();
   localStorage.setItem("existingUser", "already");
@@ -235,7 +217,7 @@ if (!existing) {
 
 for (let i = 0; i < introduction.length; i++) {
   introduction[i].addEventListener('click', function () {
-    for (let i = 0; i < title_info.length; i++){
+    for (let i = 0; i < title_info.length; i++) {
       title_info[i].style.fontSize = "19px";
     }
     this.children[1].style.fontSize = "22px";

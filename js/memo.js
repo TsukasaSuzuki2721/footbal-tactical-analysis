@@ -66,7 +66,6 @@ function editMemo() {
     targetMemo.setAttribute("contenteditable", "true");
     targetMemo.focus();
   }else{
-    console.log()
     editing.classList.remove("editing");
     editing.removeAttribute("contenteditable");
     if (editing.innerHTML == "") {

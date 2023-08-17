@@ -175,17 +175,13 @@ const playerChangeBtn = document.getElementsByClassName('playerChangeBtn')[0];
 playerChangeBtn.addEventListener('click', function () {
 	for (let i = 1; i <= 5; i++) {
 		const change = document.querySelectorAll(`.change${i}`);
-		console.log("対象1 :" + change[0]);
-		console.log("対象2 :" + change[1]);
 
 		let from = change[0].value;
 		let to = change[1].value;
-		console.log(from + "から" + to + "へ")
 
 		if (from !== "") {
 			if (homeAway_inSelect == "home") {
 				let from_id = document.getElementById(`b_${from}`);
-				console.log("fromId :" + from_id)
 
 				from_section = member_home.getElementsByClassName(from)[0];
 				to_section = member_home.getElementsByClassName(to)[0];
@@ -195,11 +191,8 @@ playerChangeBtn.addEventListener('click', function () {
 				}
 				change[0].value = "";
 				change[1].value = "";
-				console.log("対象1(空にする) :" + change[0]);
-				console.log("対象2(空にする) :" + change[1]);
 			} else {
 				let from_id = document.getElementById(`g_${from}`);
-				console.log("fromId :" + from_id);
 
 				from_section = member_away.getElementsByClassName(from)[0];
 				to_section = member_away.getElementsByClassName(to)[0];
@@ -232,16 +225,12 @@ playerChangeBtn.addEventListener('click', function () {
 			for (let j = 0; j < change0_sameList.length; j++) {
 				let fromElement = change0_sameList[j].getElementsByClassName(from, homeAway_inSelect)[0];
 				const clone_from = targetElement_to.cloneNode(true);
-				console.log(change0_sameList[j]);
-				console.log(clone_from);
 				fromElement.remove();
 				change0_sameList[j].appendChild(clone_from);
 			}
 			for (let j = 0; j < change1_sameList.length; j++) {
 				let toElement = change1_sameList[j].getElementsByClassName(to, homeAway_inSelect)[0];
 				const clone_to = targetElement_from.cloneNode(true);
-				console.log(change1_sameList[j]);
-				console.log(clone_to);
 				toElement.remove();
 				change1_sameList[j].appendChild(clone_to);
 			}

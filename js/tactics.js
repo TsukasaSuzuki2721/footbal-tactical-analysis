@@ -17,23 +17,22 @@ const feild = document.getElementsByClassName('placement');
 
 //↓タクティクスすべてにアクセスできる
 const tacticsList = document.getElementsByClassName('tactics');
-
 addTacticsBtn.addEventListener('click', function () {
   //チェックした要素
-  for (let n = 0; n < tacticsList.length; n++) {
-    if (tacticsList[n].checked == true) {
+  for (let i = 0; i < tacticsList.length; i++) {
+    if (tacticsList[i].checked == true) {
       //画像をhtml内に出力
       const imgElement = document.createElement('img');
       const scaleElement = document.createElement('div');
 
-      imgElement.src = 'images/' + tacticsList[n].id + '.svg';
-      imgElement.alt = tacticsList[n].value;
+      imgElement.src = 'images/' + tacticsList[i].id + '.svg';
+      imgElement.alt = tacticsList[i].value;
       imgElement.id = nowSituation + 'arrow' + arrowNumber;
       scaleElement.id = nowSituation + 'scale' + arrowNumber;
       scaleElement.className = `tacticsArrow drag-and-drop ${nowSituation}`;
       scaleElement.appendChild(imgElement);
       feild[0].appendChild(scaleElement);
-      if (imgElement.alt == 'ロングフィード' || imgElement.alt == '超ロングフィード' || imgElement.alt == 'クロス' || imgElement.alt == 'アーリークロス' || imgElement.alt == 'サイドチェンジ') {
+      if (imgElement.alt == 'ロングフィード' || imgElement.alt == '超ロングフィード' || imgElement.alt == 'クロス' || imgElement.alt == 'アーリークロス' || imgElement.alt == 'サイドチェンジ' || imgElement.alt == 'ロブパス' ||  　imgElement.alt == 'ロングパス') {
         scaleElement.style.filter = 'drop-shadow(1px 6px 0.8px #C0BBC0)';
       }
       // this.checked = false;
@@ -41,7 +40,7 @@ addTacticsBtn.addEventListener('click', function () {
       arrowNumber += 1;
 
       //追加後にチェックを外す
-      tacticsList[n].checked = false;
+      tacticsList[i].checked = false;
 
       //追加後にターゲットにする
       choosing.innerHTML = imgElement.alt;
@@ -51,16 +50,16 @@ addTacticsBtn.addEventListener('click', function () {
   }
   const tacticsArrow = document.getElementsByClassName('tacticsArrow');
   tacticsArrow[0].addEventListener("mousedown", mdown, false);
-  for (let o = 0; o < tacticsArrow.length; o++) {
-    tacticsArrow[o].addEventListener("mousedown", mdown, false);
-    tacticsArrow[o].addEventListener("touchstart", mdown, false);
-    tacticsArrow[o].addEventListener("mouseover", function () {
+  for (let j = 0; j < tacticsArrow.length; j++) {
+    tacticsArrow[j].addEventListener("mousedown", mdown, false);
+    tacticsArrow[j].addEventListener("touchstart", mdown, false);
+    tacticsArrow[j].addEventListener("mouseover", function () {
       const upper = document.getElementsByClassName('upper');
       for (let NofUpper = 0; NofUpper < upper.length; NofUpper++) {
         upper[NofUpper].style.zIndex = "1";
       }
     });
-    tacticsArrow[o].addEventListener("mouseout", function () {
+    tacticsArrow[j].addEventListener("mouseout", function () {
       const upper = document.getElementsByClassName('upper');
       for (let NofUpper = 0; NofUpper < upper.length; NofUpper++) {
         upper[NofUpper].style.zIndex = "";
